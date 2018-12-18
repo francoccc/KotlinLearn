@@ -2,6 +2,11 @@ package com
 
 import java.util.*
 
+/**
+ *
+ * @author Franco
+ * running slowly???
+ */
 class Solution {
 
     var rows: Int = 0
@@ -33,7 +38,8 @@ class Solution {
             grid[hits[i][0]][hits[i][1]] = 1
             unionAround(grid, hits[i][0], hits[i][1])
             val curBrickLeft = uf.size[uf.find(0)]
-            bricks[i] = curBrickLeft - brickLeft - 1;
+            bricks[i] = curBrickLeft - brickLeft - 1
+            if(bricks[i] < 0) bricks[i] = 0
             brickLeft = curBrickLeft
         }
         return bricks
@@ -52,7 +58,7 @@ class Solution {
     }
 
     fun serialize(x: Int, y: Int): Int {
-        return x * rows + y
+        return x * cols + y + 1
     }
 
     class UnionFind(capacity: Int) {
@@ -74,7 +80,7 @@ class Solution {
             val rootX = find(x)
             val rootY = find(y)
             if(rootX == rootY) return
-            else if(rootX < rootY) {
+            else if(size[rootX] < size[rootY]) {
                 size[rootY] += size[rootX]
                 parents[rootX] = rootY
             } else {
@@ -96,5 +102,5 @@ fun main(args: Array<String>) {
     val sc = Scanner(System.`in`)
     val grid = stringTo2DimArray(sc.nextLine())
     val hits = stringTo2DimArray(sc.nextLine())
-    print(Solution().hitBricks(grid, hits)[0])
+    print(intArrayToString(Solution().hitBricks(grid, hits)))
 }
